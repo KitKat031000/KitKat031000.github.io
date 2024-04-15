@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Combination Lock</title>
+<style>
+    <!-- input[type=number]::-webkit-outer-spin-button { -->
+    <!--     -webkit-appearance: none; -->
+    <!--     margin: 0; -->
+    <!-- } -->
+    <!-- input[type=number] { -->
+    <!--     /* Firefox */ -->
+    <!--     -moz-appearance: textfield; -->
+    <!-- } -->
+    body {
+      background-color: black;
+    }
+    .digit-input {
+        width: 40px; /* Adjust width as needed */
+        text-align: center;
+        margin-right: 55px; /* Adjust spacing between input fields */
+        font-size: 16px;
+        transform: scale(2);
+    }
+
+    .correct {
+        border: 2px solid green;
+    }
+
+    .incorrect {
+        border: 2px solid red;
+    }
+
+    #submit {
+        margin-left: 30px;
+        margin-right: 30px;
+        transform: scale(2);
+    }
+
+    #combinationForm {
+      padding: 30px;
+      border-radius: 20px;
+      padding-top: 280px;
+    }
+    #background_div {
+      background-image: url('img.jpeg');
+      background-size: 900px;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: enter;
+      width: 100%;
+      height: 500px;
+    }
+</style>
+</head>
+<body>
+<div id="background_div">
+<form id="combinationForm">
+    <input type="number" class="digit-input" maxlength="1" id="digit1" min="0" max="9" value="0">
+    <input type="number" class="digit-input" maxlength="1" id="digit2" min="0" max="9" value="0">
+    <input type="number" class="digit-input" maxlength="1" id="digit3" min="0" max="9" value="0">
+    <input type="number" class="digit-input" maxlength="1" id="digit4" min="0" max="9" value="0">
+    <input type="number" class="digit-input" maxlength="1" id="digit5" min="0" max="9" value="0">
+    <input type="number" class="digit-input" maxlength="1" id="digit6" min="0" max="9" value="0">
+    <button type="button" id="submit">Öffnen</button>
+</form>
+</div>
+
+<script>
+    const correctCombination = [1, 2, 3, 4, 5, 6]; // Example combination, you can change this
+
+    document.getElementById('submit').addEventListener('click', (event) => {
+        <!-- event.preventDefault(); -->
+        const inputs = document.querySelectorAll('.digit-input');
+        let currentGuess = Array.from(inputs, input => parseInt(input.value));
+
+        // Check if combination matches
+        let combinationMatches = true;
+        for (let i = 0; i < correctCombination.length; i++) {
+            if (currentGuess[i] !== correctCombination[i]) {
+                combinationMatches = false;
+                break;
+            }
+        }
+
+        // Update input field borders based on correctness of digits
+        for (let i = 0; i < inputs.length; i++) {
+            if (currentGuess[i] === correctCombination[i]) {
+                inputs[i].classList.remove('incorrect');
+                inputs[i].classList.add('correct');
+            } else {
+                inputs[i].classList.remove('correct');
+                inputs[i].classList.add('incorrect');
+            }
+        }
+
+        if (combinationMatches) {
+            <!-- alert('Combination unlocked!'); -->
+            <!-- resetGuess(); -->
+            // Remove all elements from the webpage
+            document.body.innerHTML = '';
+    
+            // Create a new image element
+            var img = document.createElement('img');
+            img.src = 'key.jpg'; // Set the image source
+            img.style.width = '100%'; // Set the width to fill the entire viewport
+            <!-- img.style.height = '100vh'; // Set the height to fill the entire viewport -->
+    
+            // Append the image element to the body
+            document.body.appendChild(img);
+        } 
+    });
+
+    function resetGuess() {
+        const inputs = document.querySelectorAll('.digit-input');
+        inputs.forEach(input => {
+            input.value = ''; // Clear input values
+            input.classList.remove('correct', 'incorrect'); // Remove any styling classes
+        });
+    }
+</script>
+
+</body>
+</html>
